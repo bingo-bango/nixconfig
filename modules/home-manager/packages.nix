@@ -44,6 +44,7 @@ in {
         poppler-utils
         qrencode
         tree
+        vhs
         wget
       ]
       ++ lib.optionals (!isServer) [
@@ -56,6 +57,7 @@ in {
         just
         gcx
         gnupg1
+        go
         ffmpeg
         k9s
         kubectl
