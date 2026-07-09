@@ -47,7 +47,6 @@ in {
       "caffeine"
       "chatgpt"
       "claude"
-      "codex-app"
       "discord"
       "exifcleaner"
       "firefox"
