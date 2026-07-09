@@ -53,13 +53,16 @@
       enableZshIntegration = true;
       nix-direnv.enable = true;
     };
+    asciinema.enable = true;
     bat.enable = true;
     btop.enable = true;
     gallery-dl.enable = true;
     fastfetch.enable = true;
     htop.enable = true;
+    jq.enable = true;
     lsd.enable = true;
     nh.enable = true;
+    pandoc.enable = true;
     vim.enable = true;
     yt-dlp.enable = true;
     ripgrep.enable = true;

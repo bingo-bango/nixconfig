@@ -14,7 +14,6 @@ in {
   home = {
     packages = with pkgs;
       [
-        asciinema
         asciinema-agg
         asciiquarium-transparent
         cbonsai
@@ -35,11 +34,9 @@ in {
         hyperfine
         imagemagick
         openssl
-        jq
         kopia
         neo-cowsay
         nix-tree
-        pandoc
         pipes-rs
         poppler-utils
         qrencode
