@@ -110,7 +110,11 @@ in {
         useACMEHost = vars.domain;
         locations."/" = {
           recommendedProxySettings = true;
+          proxyWebsockets = true;
           proxyPass = "http://127.0.0.1:${toString config.nixarr.jellyfin.port}";
+          extraConfig = ''
+            proxy_buffering off;
+          '';
         };
       };
 
