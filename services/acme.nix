@@ -2,7 +2,9 @@
   config,
   vars,
   ...
-}: {
+}: let
+  acmeEmail = "admin+acme@${vars.domain}";
+in {
   sops.secrets = {
     "cloudflare-api-key" = {};
   };
@@ -10,7 +12,7 @@
   # inspo: https://carjorvaz.com/posts/setting-up-wildcard-lets-encrypt-certificates-on-nixos/
   security.acme = {
     acceptTerms = true;
-    defaults.email = vars.acmeEmail;
+    defaults.email = acmeEmail;
 
     certs.${vars.domain} = {
       domain = vars.domain;
