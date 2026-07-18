@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   vars,
   ...
@@ -9,17 +10,26 @@ in {
   imports = [
     ./acme.nix
     ./nginx.nix
-    ./cloudflared.nix
   ];
 
   sops = {
     secrets = {
+      "cloudflare-tunnel-01" = {
+        format = "binary";
+        sopsFile = ./../secrets/cloudflare-tunnel-01;
+      };
+      "cloudflare-cert" = {
+        format = "binary";
+        sopsFile = ./../secrets/cloudflare-cert.pem;
+      };
       "wg.conf" = {
         format = "binary";
         sopsFile = ./../secrets/wg.conf;
       };
     };
   };
+
+  environment.etc."cloudflared/cert.pem".source = config.sops.secrets."cloudflare-cert".path;
 
   nixarr = {
     enable = true;
@@ -82,6 +92,21 @@ in {
         vp9 = true;
       };
       hardwareEncodingCodecs.hevc = true;
+    };
+  };
+
+  services.cloudflared = {
+    enable = true;
+    tunnels = {
+      "chenglab-01" = {
+        credentialsFile = config.sops.secrets."cloudflare-tunnel-01".path;
+        default = "http_status:404";
+        ingress = {
+          "watch.${vars.domain}" = {
+            service = "http://localhost:${toString config.nixarr.jellyfin.port}";
+          };
+        };
+      };
     };
   };
 
@@ -155,7 +180,31 @@ in {
     };
   };
 
-  systemd.tmpfiles.rules = ["d /var/lib/nixarr 0755 root root"];
+  systemd = {
+    services = {
+      "cloudflared-route-tunnel" = {
+        description = "Point traffic to tunnel subdomain";
+        after = [
+          "network-online.target"
+          "cloudflared-tunnel-chenglab-01.service"
+        ];
+        wants = [
+          "network-online.target"
+          "cloudflared-tunnel-chenglab-01.service"
+        ];
+        wantedBy = ["default.target"];
+        serviceConfig = {
+          Type = "oneshot";
+          # workaround to ensure dns is available before setting up cloudflare tunnel
+          # inspo: chatgpt
+          ExecStartPre = "${pkgs.bash}/bin/bash -c 'for i in {1..10}; do ${pkgs.iputils}/bin/ping -c1 api.cloudflare.com && exit 0 || sleep 3; done; exit 1'";
+          ExecStart = "${lib.getExe pkgs.cloudflared} tunnel route dns --overwrite-dns 'Chenglab-01' 'watch.${vars.domain}'";
+        };
+      };
+    };
+
+    tmpfiles.rules = ["d /var/lib/nixarr 0755 root root"];
+  };
 
   chenglab.kopiaBackup.paths = ["/var/lib/nixarr"];
 
