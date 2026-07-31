@@ -86,10 +86,10 @@ in {
           {path = "/Applications/Google Chrome.app";}
           {path = "/Applications/Ghostty.app";}
           {path = "/Applications/Zed.app";}
+          {path = "/Applications/ChatGPT.app";}
           {path = "/Applications/Microsoft Outlook.app";}
           {path = "/Applications/Microsoft Teams.app";}
           {path = "/Applications/Slack.app";}
-          {path = "/Applications/Spotify.app";}
           {path = "/Applications/1Password.app";}
           {path = "/System/Applications/System Settings.app";}
         ]
@@ -98,8 +98,6 @@ in {
           {path = "/Applications/Ghostty.app";}
           {path = "/Applications/Zed.app";}
           {path = "/Applications/ChatGPT.app";}
-          {path = "/Applications/Spotify.app";}
-          {path = "/Applications/Obsidian.app";}
           {path = "/Applications/WhatsApp.app";}
           {path = "/Applications/1Password.app";}
           {path = "/System/Applications/System Settings.app";}
