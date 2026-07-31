@@ -90,6 +90,7 @@ in {
           {path = "/Applications/Microsoft Outlook.app";}
           {path = "/Applications/Microsoft Teams.app";}
           {path = "/Applications/Slack.app";}
+          {path = "/Applications/WhatsApp.app";}
           {path = "/Applications/1Password.app";}
           {path = "/System/Applications/System Settings.app";}
         ]
@@ -99,6 +100,7 @@ in {
           {path = "/Applications/Zed.app";}
           {path = "/Applications/ChatGPT.app";}
           {path = "/Applications/WhatsApp.app";}
+          {path = "/Applications/Home.app";}
           {path = "/Applications/1Password.app";}
           {path = "/System/Applications/System Settings.app";}
         ];
