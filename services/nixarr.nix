@@ -36,6 +36,7 @@ in {
     mediaDir = "/fun";
     stateDir = "/var/lib/nixarr";
 
+    bazarr.enable = true;
     jellyfin.enable = true;
     prowlarr.enable = true;
     radarr.enable = true;
@@ -130,6 +131,15 @@ in {
 
   services.nginx = {
     virtualHosts = {
+      "bazarr.${vars.domain}" = {
+        forceSSL = true;
+        useACMEHost = vars.domain;
+        locations."/" = {
+          recommendedProxySettings = true;
+          proxyPass = "http://127.0.0.1:${toString config.nixarr.bazarr.port}";
+        };
+      };
+
       "watch.${vars.domain}" = {
         forceSSL = true;
         useACMEHost = vars.domain;

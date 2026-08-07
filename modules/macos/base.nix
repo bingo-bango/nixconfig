@@ -100,7 +100,7 @@ in {
           {path = "/Applications/Zed.app";}
           {path = "/Applications/ChatGPT.app";}
           {path = "/Applications/WhatsApp.app";}
-          {path = "/Applications/Home.app";}
+          {path = "/System/Applications/Home.app";}
           {path = "/Applications/1Password.app";}
           {path = "/System/Applications/System Settings.app";}
         ];
