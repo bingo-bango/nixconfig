@@ -6,6 +6,7 @@
   boot = {
     kernelParams = ["ip=dhcp"];
     initrd = {
+      luks.reusePassphrases = true;
       systemd.users.root.shell = "/bin/systemd-tty-ask-password-agent";
       network = {
         enable = true;
