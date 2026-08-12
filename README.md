@@ -143,6 +143,30 @@ Make sure you update the public key as it appears across the repository.
 Make sure the Determinate Nix installer one-liner in `install.sh` is consistent
 with how it appears on the official website.
 
+### Trialing boot-sensitive NixOS upgrades
+
+Before testing a kernel, initrd, or bootloader change, keep the current
+generation as the fallback and boot the new generation only once:
+
+```bash
+sudo bootctl set-default @current
+sudo nixos-rebuild boot --flake .#svr1chng
+bootctl list
+sudo bootctl set-oneshot nixos-generation-<NEW>.conf
+bootctl status
+sudo reboot
+```
+
+If trial boot gets stuck, then power-cycle server. The one-shot selection is
+consumed, so the previous generation boots again.
+
+After verifying the upgrade was successful, promote the
+running generation:
+
+```bash
+sudo bootctl set-default @current
+```
+
 ## To-do
 
 1. [Secure boot](https://github.com/nix-community/lanzaboote)
