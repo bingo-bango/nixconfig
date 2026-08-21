@@ -1,26 +1,14 @@
-<p align="center">
-  <img src=".github/images/background.gif" width=500 alt="chenglab" />
-  <br>
-  <img src=".github/images/servers.jpg" alt="chenglab" width=500 style="border-radius: 12px;"/>
-  <br>
-  Homelab hardware: ThinkCenter M710q Tiny, Intel i5-7500T and 8GB RAM
-  <br>
-  <br>
-</p>
-
-[![nixos 26.05](https://img.shields.io/badge/NixOS-26.05-blue.svg?&logo=NixOS&logoColor=white)](https://nixos.org)
-[![blog post](https://img.shields.io/badge/blog%20post-snazzy-purple.svg)](https://chengeric.com/homelab?gh)
-![stars](https://img.shields.io/github/stars/eh8/chenglab?logo=github&style=flat&color)
+# nixconfig
+My personal NixOS configuration, based on [chenglab](https://github.com/eh8/chenglab).
+Warning: Most of the instructions below need updating...
 
 ## Highlights
 
-This repo contains the Nix configurations for my homelab, desktop, and work laptops (both macOS and WSL).
+This repo contains the Nix configurations for my servers, laptops and desktop.
 
 - ❄️ Nix flakes track the latest stable Nixpkgs release (currently 26.05)
 - 🏠 [home-manager](https://github.com/nix-community/home-manager) manages
   dotfiles
-- 🍎 [nix-darwin](https://github.com/LnL7/nix-darwin) manages
-  macOS systems
 - 🤫 [sops-nix](https://github.com/Mic92/sops-nix) manages secrets, including
   credentials used for remote initrd disk unlocking
 - 🌬️ Root on tmpfs aka
@@ -29,29 +17,15 @@ This repo contains the Nix configurations for my homelab, desktop, and work lapt
 - 🧩 Tailscale, Nextcloud, Jellyfin, Homebridge, Scrypted, among other nice
   self-hosted applications
 - ⚡️ `just` aliases for common deployment, validation, and maintenance commands
-- 📦 [Ready-made WSL and ISO artifacts](https://github.com/eh8/chenglab/releases)
 
 ## Repository layout
 
 - `machines/` — host-specific configuration
-- `modules/` — shared NixOS, macOS, WSL, and Home Manager configuration
+- `modules/` — shared NixOS, and Home Manager configuration
 - `services/` — self-hosted service modules
 - `secrets/` — sops-encrypted secrets
 
 ## Getting started
-
-### macOS
-
-On macOS, this script will install `nix` using the
-[Determinate Systems Nix installer](https://zero-to-nix.com/start/install) and
-prompt you to install my configuration.
-
-> [!IMPORTANT]
-> You'll need to run this script as sudo or have sudo permissions.
-
-```bash
-sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/eh8/chenglab/main/install.sh)"
-```
 
 ### NixOS (Linux)
 
@@ -83,30 +57,6 @@ sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/eh8/chenglab/main/i
 > personal SSH key.
 > [The custom ISO released in this repo](https://github.com/eh8/chenglab/releases)
 > is baked with my own key.
-
-### Windows Subsystem for Linux (WSL)
-
-1. Enable WSL if you haven't done already:
-
-```powershell
-wsl --install --no-distribution
-```
-
-2. Download `nixos.wsl` from
-   [the latest release](https://github.com/eh8/chenglab/releases).
-
-3. Either double-click the `nixos.wsl` file once downloaded or import
-   the tarball into WSL:
-
-```powershell
-wsl --install --from-file nixos.wsl
-```
-
-4. You can now run NixOS:
-
-```powershell
-wsl -d NixOS
-```
 
 ## Useful commands 🛠️
 

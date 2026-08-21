@@ -5,12 +5,15 @@
 }: {
   imports = [
     inputs.home-manager.nixosModules.home-manager
-    inputs.nixos-wsl.nixosModules.default
-    inputs.vscode-server.nixosModules.default
+    inputs.impermanence.nixosModules.impermanence
 
     ./hardware-configuration.nix
 
-    ./../../modules/wsl/base.nix
+    ./../../modules/nixos/amdgpu.nix
+    ./../../modules/nixos/base.nix
+    ./../../modules/nixos/desktop.nix
+
+    ./../../services/tailscale.nix
   ];
 
   home-manager = {
@@ -20,12 +23,16 @@
     users = {
       ${vars.userName} = {
         imports = [
+          ./../../modules/home-manager/1password.nix
+          ./../../modules/home-manager/alacritty.nix
           ./../../modules/home-manager/base.nix
+          ./../../modules/home-manager/desktop.nix
+          ./../../modules/home-manager/fonts.nix
           ./../../modules/home-manager/git.nix
         ];
       };
     };
   };
 
-  networking.hostName = "win1chng";
+  networking.hostName = "dsk1chng";
 }

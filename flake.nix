@@ -1,5 +1,5 @@
 {
-  description = "chenglab";
+  description = "nixconfig";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
@@ -65,7 +65,6 @@
 
     systems = [
       "x86_64-linux"
-      "aarch64-darwin"
     ];
     forAllSystems = nixpkgs.lib.genAttrs systems;
 
