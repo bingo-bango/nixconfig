@@ -6,7 +6,7 @@
   ...
 }: {
   imports = [
-    # inputs.sops-nix.nixosModules.sops  # Disabled for now; re-enable when setting up sops
+    inputs.sops-nix.nixosModules.sops  # Disabled for now; re-enable when setting up sops
     # ./kopia-backup.nix                 # Uncomment if you have this file in modules/nixos/
     # ./packages.nix                     # Uncomment if you have this file in modules/nixos/
   ];
@@ -31,6 +31,15 @@
       experimental-features = "nix-command flakes";
       auto-optimise-store = true;
     };
+  };
+
+  sops = {
+    defaultSopsFile = ./../../secrets/secrets.yaml;
+    age.sshKeyPaths = ["/nix/secret/ssh_host_ed25519_key"];
+    # secrets."user-password".neededForUsers = true;
+    # secrets."user-password" = {};
+    # inspo: https://github.com/Mic92/sops-nix/issues/427
+    gnupg.sshKeyPaths = [];
   };
 
   # Standard mutable user management without sops password files
