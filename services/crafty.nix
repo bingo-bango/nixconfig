@@ -14,6 +14,8 @@
       "25501:25501/udp"    # Papas Game Port IPv6
       "25502:25502/udp"    # Paulo Game Port IPv4
       "25503:25503/udp"    # Paulo Game Port IPv6
+      "25504:25504/udp"    # Johnny Game Port IPv4
+      "25505:25505/udp"    # Johnny Game Port IPv6
     ];
     volumes = [
       "/var/lib/crafty/config:/crafty/app/config"
