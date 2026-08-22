@@ -8,6 +8,7 @@
     ports = [
       "8443:8443"          # Web GUI
       "25500:25500/udp"    # Papas Game Port
+      "19132:19132/udp"    # Pauls Game Port
     ];
     volumes = [
       "/var/lib/crafty/config:/crafty/app/config"
