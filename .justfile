@@ -1,58 +1,15 @@
+# List available commands
 default:
-    just --list
+    @just --list
 
-deploy machine='' ip='':
-    @if [ "$(uname)" = "Darwin" ] && [ -z "{{ machine }}" ] && [ -z "{{ ip }}" ]; then \
-      sudo darwin-rebuild \
-        switch \
-        --flake .; \
-    elif [ -z "{{ machine }}" ] && [ -z "{{ ip }}" ]; then \
-      nixos-rebuild switch \
-        --sudo \
-        --flake .; \
-    elif [ -z "{{ ip }}" ]; then \
-      nixos-rebuild switch \
-        --sudo \
-        --flake ".#{{ machine }}"; \
-    else \
-      nixos-rebuild switch \
-        --flake ".#{{ machine }}" \
-        --target-host "eh8@{{ ip }}" \
-        --build-host "eh8@{{ ip }}" \
-        --sudo \
-        --no-reexec; \
-    fi
+# Rebuild and switch system to your playserver flake config
+switch:
+    sudo nixos-rebuild switch --flake .#playserver
 
-up:
-    nix flake update
-
-lint:
-    statix check .
-
+# Dry-run build to verify syntax and dependencies without applying changes
 check:
-    nix flake check --all-systems --no-build
+    nix build .#nixosConfigurations.playserver.config.system.build.toplevel --dry-run
 
-fmt:
-    nix fmt .
-
-clean:
-    sudo nix-collect-garbage -d && nix-collect-garbage -d
-
-repair:
-    sudo nix-store --verify --check-contents --repair
-
-sops-edit:
-    sops secrets/secrets.yaml
-
-sops-rotate:
-    for file in secrets/*; do \
-      sops --rotate --in-place "$file"; \
-    done
-
-sops-update:
-    for file in secrets/*; do \
-      sops updatekeys "$file"; \
-    done
-
-build-iso:
-    nix build .#nixosConfigurations.iso1chng.config.system.build.isoImage
+# Update flake.lock dependencies (pins latest nixpkgs)
+update:
+    nix flake update
