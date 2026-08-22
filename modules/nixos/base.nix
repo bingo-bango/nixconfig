@@ -6,10 +6,9 @@
   ...
 }: {
   imports = [
-    inputs.sops-nix.nixosModules.sops
-
-    ./kopia-backup.nix
-    ./packages.nix
+    # inputs.sops-nix.nixosModules.sops  # Disabled for now; re-enable when setting up sops
+    # ./kopia-backup.nix                 # Uncomment if you have this file in modules/nixos/
+    # ./packages.nix                     # Uncomment if you have this file in modules/nixos/
   ];
 
   boot.loader = {
@@ -34,25 +33,16 @@
     };
   };
 
-  sops = {
-    defaultSopsFile = ./../../secrets/secrets.yaml;
-    age.sshKeyPaths = ["/nix/secret/initrd/ssh_host_ed25519_key"];
-    secrets."user-password".neededForUsers = true;
-    secrets."user-password" = {};
-    # inspo: https://github.com/Mic92/sops-nix/issues/427
-    gnupg.sshKeyPaths = [];
-  };
-
-  users.mutableUsers = false;
+  # Standard mutable user management without sops password files
+  users.mutableUsers = true;
   users.users.${vars.userName} = {
     isNormalUser = true;
     description = vars.userName;
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = [ "networkmanager" "wheel" "podman" ];
     openssh.authorizedKeys.keys = [
       vars.sshPublicKeyPersonal
     ];
     shell = pkgs.zsh;
-    hashedPasswordFile = config.sops.secrets."user-password".path;
   };
 
   services = {
@@ -60,7 +50,7 @@
       enable = true;
       settings = {
         PermitRootLogin = "no";
-        PasswordAuthentication = false;
+        PasswordAuthentication = true; # Set to false once your SSH key is confirmed working
       };
       openFirewall = true;
     };
@@ -72,7 +62,7 @@
     networkmanager.enable = true;
   };
 
-  # inspo: https://github.com/NixOS/nixpkgs/issues/180175#issuecomment-1658731959
+  # Fix NetworkManager wait online delay on boot
   systemd.services.NetworkManager-wait-online = {
     serviceConfig = {
       ExecStart = ["" "${pkgs.networkmanager}/bin/nm-online -q"];
@@ -84,25 +74,12 @@
   time.timeZone = vars.timeZone;
   zramSwap.enable = true;
 
-  environment.persistence."/nix/persist" = {
-    # Hide these mounts from the sidebar of file managers
-    hideMounts = true;
-
-    directories = [
-      "/var/log"
-      # inspo: https://github.com/nix-community/impermanence/issues/178
-      "/var/lib/nixos"
-    ];
-
-    files = [
-      "/etc/machine-id"
-      "/etc/ssh/ssh_host_ed25519_key.pub"
-      "/etc/ssh/ssh_host_ed25519_key"
-      "/etc/ssh/ssh_host_rsa_key.pub"
-      "/etc/ssh/ssh_host_rsa_key"
-    ];
-  };
-
-  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "23.11";
+  # Base packages installed across all machines
+  environment.systemPackages = with pkgs; [
+    git
+    curl
+    wget
+    just
+    htop
+  ];
 }
