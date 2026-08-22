@@ -7,7 +7,7 @@
     autoStart = true;
     ports = [
       "8443:8443"          # Web GUI
-      "19132:19132/udp"    # Bedrock Game Port
+      "25500:25500/udp"    # Papas Game Port
     ];
     volumes = [
       "/var/lib/crafty/config:/crafty/app/config"
