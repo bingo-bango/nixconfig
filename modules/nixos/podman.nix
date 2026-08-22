@@ -9,5 +9,5 @@
   };
 
   # Grant your primary user permission to interact with Podman
-  users.users.${vars.username}.extraGroups = [ "podman" ];
+  users.users.${vars.userName}.extraGroups = [ "podman" ];
 }
