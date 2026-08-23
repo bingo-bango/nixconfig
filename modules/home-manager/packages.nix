@@ -41,7 +41,7 @@ in {
         poppler-utils
         qrencode
         tree
-        vhs
+        # vhs
         wget
       ]
       ++ lib.optionals (!isServer) [
