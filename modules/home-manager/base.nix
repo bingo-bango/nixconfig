@@ -11,29 +11,19 @@
 
   home = {
     username = vars.userName;
-    homeDirectory =
-      if pkgs.stdenv.isDarwin
-      then "/Users/${vars.userName}"
-      else "/home/${vars.userName}";
-    stateVersion = "23.11";
-    sessionVariables = lib.mkIf pkgs.stdenv.isDarwin {
-      SOPS_AGE_KEY_FILE = "$HOME/.config/sops/age/keys.txt";
-    };
-    # note: suppress "last login" message on macos
-    file = lib.mkIf pkgs.stdenv.isDarwin {
-      ".hushlogin".text = "";
-    };
+    homeDirectory = "/home/${vars.userName}";
+    stateVersion = "26.05";
   };
 
   programs = {
-    helix = {
-      enable = true;
-      defaultEditor = true;
-      settings = {
-        theme = "dark_high_contrast";
-      };
-    };
-    fzf = {
+    # helix = {
+    #   enable = true;
+    #   defaultEditor = true;
+    #   settings = {
+    #     theme = "dark_high_contrast";
+    #   };
+    # };
+    fzf = {               # fuzzy finder
       enable = true;
       enableZshIntegration = true;
     };
@@ -43,7 +33,7 @@
         theme = "dracula";
       };
     };
-    tealdeer = {
+    tealdeer = {            # man pages
       enable = true;
       settings.updates.auto_update = true;
     };
@@ -53,21 +43,21 @@
       enableZshIntegration = true;
       nix-direnv.enable = true;
     };
-    asciinema.enable = true;
-    bat.enable = true;
-    btop.enable = true;
-    gallery-dl.enable = true;
-    fastfetch.enable = true;
-    htop.enable = true;
-    jq.enable = true;
-    lsd.enable = true;
-    nh.enable = true;
-    pandoc.enable = true;
-    vim.enable = true;
+    # asciinema.enable = true;
+    bat.enable = true;        # like cat but with syntax highlighting
+    btop.enable = true;       # resource monitor
+    # gallery-dl.enable = true;
+    fastfetch.enable = true;  # fetches system info
+    htop.enable = true;       # resource monitor
+    # jq.enable = true;
+    lsd.enable = true;        # rewrite of GNU ls with lots of added features
+    nh.enable = true;         # nix helper util
+    # pandoc.enable = true;
+    # vim.enable = true;
     yt-dlp.enable = true;
-    ripgrep.enable = true;
-    fd.enable = true;
+    ripgrep.enable = true;    # regex grep
+    fd.enable = true;         # find alternative
   };
 
-  systemd.user.startServices = lib.mkIf pkgs.stdenv.isLinux "sd-switch";
+  systemd.user.startServices = "sd-switch";
 }
