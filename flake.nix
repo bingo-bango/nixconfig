@@ -28,6 +28,7 @@
   in {
     nixosConfigurations = {
       playserver = mkNixOSConfig ./machines/playserver/configuration.nix;
+      server_think = mkNixOSConfig ./machines/server_think/configuration.nix;
     };
   };
 }
