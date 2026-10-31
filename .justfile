@@ -17,10 +17,14 @@ repair:
     sudo nix-store --verify --check-contents --repair
 
 switch:
-    sudo nixos-rebuild switch --flake .#playserver
+    #!/usr/bin/env bash
+    machine=$(ls -1 machines | fzf --prompt="Select machine: ")
+    sudo nixos-rebuild switch --flake .#${machine}
 
 check:
-    nix build .#nixosConfigurations.playserver.config.system.build.toplevel --dry-run
+    #!/usr/bin/env bash
+    machine=$(ls -1 machines | fzf --prompt="Select machine: ")
+    nix build .#nixosConfigurations.${machine}.config.system.build.toplevel --dry-run
 
 sops-edit:
     sops secrets/secrets.yaml
