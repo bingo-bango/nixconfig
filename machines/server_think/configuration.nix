@@ -5,6 +5,7 @@
     inputs.home-manager.nixosModules.home-manager
     ./hardware-configuration.nix
     ../../modules/nixos/base.nix
+    ../../modules/nixos/ai-containers.nix
   ];
 
   home-manager = {
