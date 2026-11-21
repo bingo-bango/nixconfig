@@ -36,7 +36,7 @@
           "/var/lib/ai-models/sd-webui/models:/app/models"
           "/var/lib/ai-models/sd-webui/outputs:/app/outputs"
         ];
-        cmd = [ "--use-cpu" "all" "--no-half" "--precision" "full", "--listen" ];
+        cmd = [ "--use-cpu" "all" "--no-half" "--precision" "full" "--listen" ];
       };
 
     };
