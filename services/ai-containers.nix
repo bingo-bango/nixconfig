@@ -8,6 +8,15 @@
     7860  # AUTOMATIC1111 WebUI
   ];
 
+  # Ensure host directories exist before Podman starts (and recreate them after a wipe)
+  systemd.tmpfiles.rules = [
+    "d /var/lib/ai-models 0755 root root -"
+    "d /var/lib/ai-models/ollama 0755 root root -"
+    "d /var/lib/ai-models/sd-webui 0755 root root -"
+    "d /var/lib/ai-models/sd-webui/models 0755 root root -"
+    "d /var/lib/ai-models/sd-webui/outputs 0755 root root -"
+  ];
+
   # 2. OCI Container Definitions managed by Systemd
   virtualisation.oci-containers = {
     backend = "podman";
