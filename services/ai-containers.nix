@@ -10,11 +10,8 @@
     "d /var/lib/ai-models 0755 root root -"
     "d /var/lib/ai-models/ollama 0755 root root -"
     "d /var/lib/ai-models/sd-webui 0755 root root -"
-    "d /var/lib/ai-models/sd-webui/models 0775 root root -"
-    "d /var/lib/ai-models/sd-webui/outputs 0775 root root -"
-    # The image runs as UID 10000; adjust ownership if you hit permission errors
-    # "d /var/lib/ai-models/sd-webui/models 0775 10000 root -"
-    # "d /var/lib/ai-models/sd-webui/outputs 0775 10000 root -"
+    "d /var/lib/ai-models/sd-webui/models 0775 10000 root -"
+    "d /var/lib/ai-models/sd-webui/outputs 0775 10000 root -"
   ];
 
   virtualisation.oci-containers = {
